@@ -22,7 +22,7 @@ pub enum PyThreadState { }
     //fn _PyThreadState_Init(arg1: *mut PyThreadState) -> ();
     pub fn PyThreadState_Clear(arg1: *mut PyThreadState) -> ();
     pub fn PyThreadState_Delete(arg1: *mut PyThreadState) -> ();
-    #[cfg(py_sys_config="WITH_THREAD")]
+    #[cfg(any(py_sys_config="WITH_THREAD", version_changed="3.7"))]
     pub fn PyThreadState_DeleteCurrent() -> ();
     pub fn PyThreadState_Get() -> *mut PyThreadState;
     pub fn PyThreadState_Swap(arg1: *mut PyThreadState) -> *mut PyThreadState;

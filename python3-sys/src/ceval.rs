@@ -50,7 +50,7 @@ pub unsafe fn PyEval_CallObject(func: *mut PyObject, arg: *mut PyObject) -> *mut
     pub fn PyEval_RestoreThread(arg1: *mut PyThreadState) -> ();
 }
 
-#[cfg(py_sys_config = "WITH_THREAD")]
+#[cfg(any(py_sys_config = "WITH_THREAD", version_changed = "3.7"))]
 #[cfg_attr(windows, link(name="pythonXY"))] extern "C" {
     pub fn PyEval_ThreadsInitialized() -> c_int;
     pub fn PyEval_InitThreads() -> ();

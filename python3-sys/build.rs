@@ -389,6 +389,16 @@ fn main() {
     // try using 'env' (sorry but this isn't our fault - it just has to 
     // match the pkg-config package name, which is going to have a . in it).
     let version = version_from_env().unwrap();
+    // Since Python3.7, WITH_THREAD is not available in sysconfig because it
+    // threading is always enable. Add version_changed cfg option for it.
+    if version.major == 3 {
+        match version.minor {
+            Some(minor) => {
+                println!("cargo:rustc-cfg=version_changed=\"{}.{}\"", version.major, minor);
+            },
+            None => {}
+        }
+    }
     let python_interpreter_path = configure_from_path(&version).unwrap();
     let mut config_map = get_config_vars(&python_interpreter_path).unwrap();
     if is_not_none_or_zero(config_map.get("Py_DEBUG")) {
